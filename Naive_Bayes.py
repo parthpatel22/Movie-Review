@@ -122,7 +122,7 @@ class NaiveBayes:
     def likelihood_ratio(self, word, alpha):
         return self.p_word_given_label_and_alpha(word,POS_LABEL,alpha)/ self.p_word_given_label_and_alpha(word,NEG_LABEL,alpha)
 
-    def evaluate_classifier_accuracy(self, alpha):
+    def classify_reviews(self, alpha):
         correct = 0.0
         total = 0.0
 
@@ -133,7 +133,9 @@ class NaiveBayes:
                 with open(os.path.join(p,f),'r') as doc:
                     content = doc.read()
                     bow = self.tokenize_doc(content)
-                    if self.classify(bow, alpha) == label:
+                    l=self.classify(bow, alpha)
+                    if  l == label:
                         correct += 1.0
                     total += 1.0
-        return 100 * correct / total
+                    print("The review of %s is %s" %(f,l))
+        print("Accuracy of classifier is ",100 * correct / total)
